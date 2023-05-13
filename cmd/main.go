@@ -30,14 +30,14 @@ func main() {
 	)
 
 	// Create ntriples object.
-	n := ntriples.New(
-		config,
-	)
-	err := n.Construct()
+	triples := ntriples.New(config)
+
+	// Construct ntriples file.
+	err := triples.Construct()
 	if err != nil {
 		log.Fatalln(err)
 	}
-	log.Println("complete")
+	log.Println("success")
 }
 
 func validateRequiredArgs(args ...interface{}) error {

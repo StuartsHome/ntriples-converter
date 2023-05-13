@@ -12,7 +12,7 @@ Convert your CSV files into N-Triples files ready to be imported into a RDF grap
 ## Getting Started
 
 ```
-go run cmd/main.go -filepath="cmd/reader/fixtures/test_data.csv" -namespace="hello"
+go run cmd/main.go -inputpath="cmd/reader/fixtures/test_data.csv" -namespace="hello"
 ```
 
 ## Running Tests
