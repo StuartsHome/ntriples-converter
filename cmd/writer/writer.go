@@ -2,6 +2,8 @@ package writer
 
 import (
 	"os"
+
+	"github.com/StuartsHome/cmd/config"
 )
 
 var _ Writer = &WriterImpl{}
@@ -11,10 +13,13 @@ type Writer interface {
 }
 
 type WriterImpl struct {
+	config config.Config
 }
 
-func New() *WriterImpl {
-	return &WriterImpl{}
+func New(config config.Config) *WriterImpl {
+	return &WriterImpl{
+		config: config,
+	}
 }
 
 func (w *WriterImpl) Write(contents []byte, filePath string) error {

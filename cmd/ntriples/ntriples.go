@@ -3,7 +3,7 @@ package ntriples
 import (
 	"fmt"
 
-	"github.com/StuartsHome/cmd/options"
+	"github.com/StuartsHome/cmd/config"
 	"github.com/StuartsHome/cmd/processor"
 	"github.com/StuartsHome/cmd/reader"
 	"github.com/StuartsHome/cmd/writer"
@@ -19,17 +19,14 @@ type NtriplesImpl struct {
 	reader    reader.Reader
 	processor processor.Processor
 	writer    writer.Writer
-	options   options.OptionsImpl
+	config.Config
 }
 
-func New(outputPath string) *NtriplesImpl {
+func New(config config.Config) *NtriplesImpl {
 	return &NtriplesImpl{
-		reader:    reader.New(),
-		processor: processor.New(),
-		writer:    writer.New(),
-		options: options.OptionsImpl{
-			OutputPath: outputPath,
-		},
+		reader:    reader.New(config),
+		processor: processor.New(config),
+		writer:    writer.New(config),
 	}
 }
 
@@ -51,7 +48,7 @@ func (n *NtriplesImpl) Construct(filepath string) error {
 	}
 
 	// Write.
-	if err := n.writer.Write(process, n.options.OutputPath); err != nil {
+	if err := n.writer.Write(process, n.OutputPath); err != nil {
 		return writerErr(err)
 	}
 	return nil

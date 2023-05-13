@@ -1,0 +1,4 @@
+.vscode
+*.ttl
+/cmd/reader/fixtures/test_data.csv
+mapping.md
