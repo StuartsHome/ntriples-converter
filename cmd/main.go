@@ -11,33 +11,40 @@ import (
 )
 
 func main() {
-	var path string
+	var inputPath string
 	var namespace string
-	flag.StringVar(&path, "filepath", "", "")
+	flag.StringVar(&inputPath, "inputpath", "", "")
 	flag.StringVar(&namespace, "namespace", "", "")
 	flag.Parse()
 
 	// Parse args.
-	if path == "" {
-		log.Fatalln("filepath required")
-	}
-	if namespace == "" {
-		log.Fatalln("namespace required")
+	if err := validateRequiredArgs(inputPath, namespace); err != nil {
+		log.Fatalln(err)
 	}
 
 	// Create config.
 	config := config.New(
-		"namespace",
+		config.Namespace(namespace),
+		inputPath,
 		fmt.Sprintf("output-%s.ttl", time.Now().Format("20060102")),
 	)
 
 	// Create ntriples object.
 	n := ntriples.New(
-		*config,
+		config,
 	)
-	err := n.Construct(path)
+	err := n.Construct()
 	if err != nil {
 		log.Fatalln(err)
 	}
 	log.Println("complete")
+}
+
+func validateRequiredArgs(args ...interface{}) error {
+	for _, arg := range args {
+		if arg.(string) == "" {
+			return fmt.Errorf("inputpath, namespace required")
+		}
+	}
+	return nil
 }

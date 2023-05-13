@@ -2,13 +2,15 @@ package config
 
 type Namespace string
 type Config struct {
-	OutputPath string
 	Namespace  Namespace
+	InputPath  string
+	OutputPath string
 }
 
-func New(ns string, outputPath string) *Config {
+func New(ns Namespace, inputPath, outputPath string) *Config {
 	return &Config{
-		OutputPath: outputPath,
 		Namespace:  Namespace(ns),
+		InputPath:  inputPath,
+		OutputPath: outputPath,
 	}
 }

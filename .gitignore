@@ -1,4 +1,4 @@
 .vscode
 *.ttl
-/cmd/reader/fixtures/test_data.csv
+/cmd/reader/fixtures/test_data_formal.csv
 mapping.md

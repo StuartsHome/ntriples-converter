@@ -12,7 +12,7 @@ import (
 var _ Ntriples = &NtriplesImpl{}
 
 type Ntriples interface {
-	Construct(filepath string) error
+	Construct() error
 }
 
 type NtriplesImpl struct {
@@ -22,7 +22,7 @@ type NtriplesImpl struct {
 	config.Config
 }
 
-func New(config config.Config) *NtriplesImpl {
+func New(config *config.Config) *NtriplesImpl {
 	return &NtriplesImpl{
 		reader:    reader.New(config),
 		processor: processor.New(config),
@@ -34,9 +34,9 @@ var readerErr = func(err error) error { return fmt.Errorf("unable to read file: 
 var processorErr = func(err error) error { return fmt.Errorf("unable to process contents: %w", err) }
 var writerErr = func(err error) error { return fmt.Errorf("unable to write processed contents: %w", err) }
 
-func (n *NtriplesImpl) Construct(filepath string) error {
+func (n *NtriplesImpl) Construct() error {
 	// Read.
-	contents, err := n.reader.Read(filepath)
+	contents, err := n.reader.Read()
 	if err != nil {
 		return readerErr(err)
 	}
@@ -48,7 +48,7 @@ func (n *NtriplesImpl) Construct(filepath string) error {
 	}
 
 	// Write.
-	if err := n.writer.Write(process, n.OutputPath); err != nil {
+	if err := n.writer.Write(process); err != nil {
 		return writerErr(err)
 	}
 	return nil

@@ -9,19 +9,19 @@ import (
 var _ Writer = &WriterImpl{}
 
 type Writer interface {
-	Write(contents []byte, filePath string) error
+	Write(contents []byte) error
 }
 
 type WriterImpl struct {
 	config config.Config
 }
 
-func New(config config.Config) *WriterImpl {
+func New(config *config.Config) *WriterImpl {
 	return &WriterImpl{
-		config: config,
+		config: *config,
 	}
 }
 
-func (w *WriterImpl) Write(contents []byte, filePath string) error {
-	return os.WriteFile(filePath, contents, 0666)
+func (w *WriterImpl) Write(contents []byte) error {
+	return os.WriteFile(w.config.OutputPath, contents, 0666)
 }
